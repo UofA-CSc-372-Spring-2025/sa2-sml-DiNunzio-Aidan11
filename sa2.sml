@@ -4,7 +4,7 @@
 (* Time spent on HW6:
 *)
 
-(* Collaborators and references: chatGPT
+(* Collaborators and references: Phyllis Spence, chatGPT
 *)
 
 (* indicate planning to use the Unit testing module *)
@@ -57,9 +57,12 @@ fun reverse (f: 'a*'b->'b) (acc: 'b) (l: 'a list): 'b =
 *)
 
 (**** Problem D ****)
-(*
-fun minlist _ = 0
-
+fun minlist (intList : int list) : int =
+  case intList of
+    [] => raise Match
+  | _  => foldl (fn (x, acc) => Int.min(x, acc)) 1073741823 intList;
+  
+  
 val () =
   Unit.checkExnWith Int.toString
   "minlist [] should raise an exception"
@@ -70,7 +73,6 @@ val () =
   "minlist [1,2,3,4,0] should be 0"
   (fn () => minlist [1,2,3,4,0])
   0
-*)
 
 
 (**** Problem E ****)
