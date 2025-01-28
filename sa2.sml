@@ -37,15 +37,17 @@ val () =
     true
 
 (**** Problem C ****)
-(*
-fun reverse xs = xs
+
+fun reverse (intList : int list) : int list = 
+  foldl (fn (x, acc) => x :: acc) [] intList;
+
 
 val () =
   Unit.checkExpectWith (Unit.listString Int.toString) 
   "reverse [1,2] should be [2,1]"
   (fn () => reverse [1,2])
   [2,1]
-*)
+
 
 (*
 fun reverse (f: 'a*'b->'b) (acc: 'b) (l: 'a list): 'b =
