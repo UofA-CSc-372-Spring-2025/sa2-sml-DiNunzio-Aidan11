@@ -1,17 +1,16 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
-(* Name:                                    *)
+(* Name: Aidan DiNunzio                         *)
 (* Time spent on HW6:
 *)
 
-(* Collaborators and references:
+(* Collaborators and references: chatGPT
 *)
 
 (* indicate planning to use the Unit testing module *)
 use "Unit.sml";
 
 (**** Problem A ****)
-
 fun mynull []       = true
   | mynull (_::_)   = false
 
@@ -21,15 +20,22 @@ val () =
     true
 
 
+
 (**** Problem B ****)
-(*
-fun firstVowel _ = false
+
+fun firstVowel [] = false
+  | firstVowel (#"a"::_) = true
+  | firstVowel (#"e"::_) = true
+  | firstVowel (#"i"::_) = true
+  | firstVowel (#"o"::_) = true
+  | firstVowel (#"u"::_) = true
+  | firstVowel _ = false;
 
 val () =
     Unit.checkExpectWith Bool.toString "firstVowel 'ack' should be true"
     (fn () => firstVowel [#"a",#"c",#"k"])
     true
-*)
+
 (**** Problem C ****)
 (*
 fun reverse xs = xs
@@ -40,6 +46,14 @@ val () =
   (fn () => reverse [1,2])
   [2,1]
 *)
+
+(*
+fun reverse (f: 'a*'b->'b) (acc: 'b) (l: 'a list): 'b =
+  | case 1 of
+    [] => acc
+  | x::xs => reverse f (f(x,acc)) xs
+*)
+
 (**** Problem D ****)
 (*
 fun minlist _ = 0
@@ -55,6 +69,8 @@ val () =
   (fn () => minlist [1,2,3,4,0])
   0
 *)
+
+
 (**** Problem E ****)
 (*
 exception Mismatch
