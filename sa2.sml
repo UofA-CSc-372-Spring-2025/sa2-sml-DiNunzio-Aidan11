@@ -1,7 +1,7 @@
 (* Solutions to SA2 assignment, Intro to ML *)
 
 (* Name: Aidan DiNunzio                         *)
-(* Time spent on HW6:
+(* Time spent on HW6: ~5hr
 *)
 
 (* Collaborators and references: Phyllis Spence, chatGPT
@@ -13,7 +13,8 @@ use "Unit.sml";
 (**** Problem A ****)
 fun mynull []       = true
   | mynull (_::_)   = false
-
+  
+(**** Problem A Tests ****)
 val () =
     Unit.checkExpectWith Bool.toString "mynull [] should be true"
     (fn () => mynull [])
@@ -35,6 +36,7 @@ fun firstVowel [] = false
   | firstVowel (#"u"::_) = true
   | firstVowel _ = false;
 
+(**** Problem B Tests ****)
 val () =
     Unit.checkExpectWith Bool.toString "firstVowel 'ack' should be true"
     (fn () => firstVowel [#"a",#"c",#"k"])
@@ -53,7 +55,7 @@ val () =
 fun reverse (intList : int list) : int list = 
   foldl (fn (x, acc) => x :: acc) [] intList;
 
-
+(**** Problem C Tests ****)
 val () =
   Unit.checkExpectWith (Unit.listString Int.toString) 
   "reverse [1,2] should be [2,1]"
@@ -66,7 +68,8 @@ fun minlist (intList : int list) : int =
   case intList of
     [] => raise Match
   | _  => foldl (fn (x, acc) => Int.min(x, acc)) 1073741823 intList;
-  
+
+(**** Problem D Tests ****)
 val () =
   Unit.checkExnWith Int.toString
   "minlist [] should raise an exception"
@@ -85,36 +88,30 @@ fun zip ([],[]) = []
   | zip (_::_, []) = raise Mismatch
   | zip (x::xs, y::ys) = (x,y) :: zip (xs, ys);
   
-  
-val () =
-  Unit.checkExpectWith (fn l => "[" ^ String.concatWith ", " (List.map (fn (x, y) => "(" ^ Int.toString x ^ ", " ^ Int.toString y ^ ")") l) ^ "]")
-  "zip ([1,3,5], [2,4,6]) should be [(1,2), (3,4), (5,6)]"
+(**** Problem E Tests ****)
+val () = 
+  Unit.checkExpectWith (fn l => Unit.listString (fn (x, y) => "(" ^ Int.toString x ^ ", " ^ Int.toString y ^ ")") l)
+  "zip ([1,3,5], [2,4,6]) should return [(1,2), (3,4), (5,6)]"
   (fn () => zip ([1,3,5], [2,4,6]))
-  [(1,2), (3,4), (5,6)]
-  
-(*
-val () =
-  Unit.checkExpectWith (Int.toString Unit.listString) 
-  "zip ([1,3,5], [2,4,6]) should be (1,2), (3,4), (5,6)"
-  (fn () => zip ([1,3,5], [2,4,6]))
-  [(1,2), (3,4), (5,6)]
-*)
-(*
-val () = Unit.checkExnWith 
+  [(1,2), (3,4), (5,6)];
+val () = Unit.checkExnWith (fn l => Unit.listString (fn (x, y) => "(" ^ Int.toString x ^ ", " ^ Int.toString y ^ ")") l)
   "zip ([1,3,5], [2,4]) should raise Mismatch"
   (fn () => zip ([1,3,5], [2,4]))
-*)
+  
+  
 (**** Problem F ****)
 fun concat [] = []
   | concat (x::xs) = x @ concat xs
 
-
+(**** Problem F Tests ****)
 val () =
   Unit.checkExpectWith 
     (fn l => "[" ^ String.concatWith ", " (List.map Int.toString l) ^ "]")
     "concat [[1], [2, 3, 4], [], [5, 6]] should be [1, 2, 3, 4, 5, 6]"
     (fn () => concat [[1], [2, 3, 4], [], [5, 6]])
     [1, 2, 3, 4, 5, 6]  
+    
+    
 (**** Problem G ****)
 fun isDigit c = 
   case c of 
@@ -130,7 +127,7 @@ fun isDigit c =
     | #"9" => true
     | _ => false;
     
-
+(**** Problem G Tests ****)
 val () =
   Unit.checkExpectWith Bool.toString
     "isDigit #'5' should return true"
@@ -153,6 +150,7 @@ fun isAlpha c =
     (charNum >= Char.ord #"A" andalso charNum <= Char.ord #"Z")
   end;
 
+(**** Problem H Tests ****)
 val () =
   Unit.checkExpectWith Bool.toString
     "isAlpha #'a' should return true"
@@ -173,6 +171,7 @@ fun svgCircle (cx, cy, r, fill) =
   "\" r=\"" ^ Int.toString r ^ 
   "\" fill=\"" ^ fill ^ "\" />";
 
+(**** Problem I Tests ****)
 val () =
   Unit.checkExpectWith (fn x => x)
   "svgCircle (200, 300, 100, \"red\") should return <circle cx=\"200\" cy=\"300\" r=\"100\" fill=\"red\" />"
@@ -181,15 +180,21 @@ val () =
 
 
 (**** Problem J ****)
-(*
-fun partition p (x :: xs) = ([],[])
+fun partition p [] = ([], [])
+  | partition p (x::xs) = 
+    let
+      val (first, second) = partition p xs
+    in
+      if p x then (x::first, second)  
+      else (first, x::second)
+      end;
 
+(**** Problem J Tests ****)
 val () =
   Unit.checkExpectWith (fn (l1, l2) => "(" ^ Unit.listString Int.toString l1 ^ ", " ^ Unit.listString Int.toString l2 ^ ")")
   "partition (fn x => x mod 2 = 0) [1, 2, 3, 4, 5] should return ([2, 4], [1, 3, 5])"
   (fn () => partition (fn x => x mod 2 = 0) [1, 2, 3, 4, 5])
   ([2, 4], [1, 3, 5]);
-*)
 
 (* Unit testing reporting *)
 
